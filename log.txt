@@ -1,3 +1,4 @@
 January 7th, 2019
 --------------------------------
 Alvi : Created the Player class and made basic methods and properties like lives and ship avatar.
+       Created basic bare-bone functions for main SpaceSanta.java

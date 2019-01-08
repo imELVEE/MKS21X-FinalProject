@@ -18,7 +18,7 @@ import com.googlecode.lanterna.input.KeyMappingProfile;
 
 public class SpaceSanta{
 
-  public static void putString(int r, int c,Terminal t, String s){
+  public static void putString(int r, int c,Terminal t, CharSequence s){
 		t.moveCursor(r,c);
 		for(int i = 0; i < s.length();i++){
 			t.putCharacter(s.charAt(i));
@@ -26,7 +26,7 @@ public class SpaceSanta{
   }
 
   public static void main(String[] args){
-    String santa = "</^\\>";
+    player santa = new player("</^\\>", 2);
 
     Terminal terminal = TerminalFacade.createTextTerminal();
     terminal.enterPrivateMode();
@@ -42,20 +42,8 @@ public class SpaceSanta{
     while(running){
 
     terminal.moveCursor(x,y);
-    /*
-    terminal.applySGR(Terminal.SGR.ENTER_BOLD);
-    terminal.putCharacter(' ');
-    terminal.putCharacter(' ');
-    */
     putString(x,y,terminal,santa);
     terminal.putCharacter(' ');
-    /*
-    terminal.moveCursor(size.getColumns()-5,6);
-    terminal.putCharacter(' ');
-    terminal.putCharacter(' ');
-    terminal.putCharacter(' ');
-    terminal.putCharacter(' ');
-    */
     terminal.applyBackgroundColor(Terminal.Color.DEFAULT);
     terminal.applyForegroundColor(Terminal.Color.DEFAULT);
 
@@ -82,6 +70,9 @@ public class SpaceSanta{
         x++;
       }
     }
+
+    putString(size.getColumns()/2-2 , size.getRows()*2/3 , terminal ,  "LIVES: " + santa.getLives());
+    putString(size.getColumns()/2-2 , size.getRows()*2/3+2 , terminal , "SCORE: " + santa.getScore());
     }
   }
 }

@@ -2,8 +2,9 @@ January 7th, 2019
 --------------------------------
 Alvi : Created the Player class and made basic methods and properties like lives and ship avatar.
        Created basic bare-bone functions for main SpaceSanta.java
-
+Tanzim: Read Mr.K's library and the java docs of lanterna. Made recquried abstract classes
 January 8th, 2019
 --------------------------------
 Alvi : Had player.java implement CharSequence so it's compatible with Strings, etc. and made a "score" variable
        Had SpaceSanta.java use player.java and included lives and score the terminal window when running SpaceSanta
+Tanzim:Made changes to SpaceSanta.java to allow it to compile and run monster classes. Finished the monster class octopus. It too late to commit them, so I wil make a commit when I wake yp

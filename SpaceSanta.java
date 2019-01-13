@@ -41,11 +41,12 @@ public class SpaceSanta{
     int zx=0;
     int zy=2;
     long tStart = System.currentTimeMillis();
+    long tCount=0;
 		long lastSecond = 0;
     Octopus.setPosition(size,terminal);
     while(running){
     Octopus.putString(zx,zy,terminal,Octopus.getName());
-    zx++;
+
     if(zx==size.getRows()){
       zx=0;
       zy++;
@@ -85,6 +86,14 @@ public class SpaceSanta{
     if(millis/1000 > lastSecond){
       lastSecond = millis / 1000;
     }
+    long tLastCount=lastSecond;
+
+    if(tLastCount-tCount>8){
+      long temporary=tLastCount;
+      tCount=tLastCount;
+      zx++;
+    }
+
     putString(size.getColumns()/2-2 , size.getRows()*2/3 , terminal ,  "LIVES: " + santa.getLives());
     putString(size.getColumns()/2-2 , size.getRows()*2/3+2 , terminal , "SCORE: " + santa.getScore());
     }

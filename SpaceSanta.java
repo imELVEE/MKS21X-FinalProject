@@ -45,13 +45,20 @@ public class SpaceSanta{
 		long lastSecond = 0;
     Octopus.setPosition(size,terminal);
     while(running){
+    terminal.applyBackgroundColor(Terminal.Color.DEFAULT);
+   terminal.applyForegroundColor(Terminal.Color.DEFAULT);
     Octopus.putString(zx,zy,terminal,Octopus.getName());
-
-    if(zx==size.getRows()){
+    terminal.putCharacter(' ');
+    
+    if(zx==size.getRows()*4 ){
+      terminal.moveCursor(zx,zy);
+      terminal.putCharacter(' ');
       zx=0;
       zy++;
     }
-    terminal.moveCursor(x,y);
+   terminal.applyBackgroundColor(Terminal.Color.DEFAULT);
+   terminal.applyForegroundColor(Terminal.Color.DEFAULT);
+   terminal.moveCursor(x,y);
     putString(x,y,terminal,santa);
     terminal.putCharacter(' ');
     terminal.applyBackgroundColor(Terminal.Color.DEFAULT);
@@ -86,11 +93,13 @@ public class SpaceSanta{
     if(millis/1000 > lastSecond){
       lastSecond = millis / 1000;
     }
-    long tLastCount=lastSecond;
+    long tLastCount=millis;
 
-    if(tLastCount-tCount>8){
+    if(tLastCount-tCount>40){
       long temporary=tLastCount;
       tCount=tLastCount;
+      terminal.moveCursor(zx,zy);
+      terminal.putCharacter(' ');
       zx++;
     }
 

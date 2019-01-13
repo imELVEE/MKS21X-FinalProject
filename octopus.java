@@ -20,7 +20,11 @@ private   boolean state;
 
 
   public octopus(){
-    name="0000";
+    name="  / _ \\\r\n" +
+			"\\_\\(_)/_/\r\n" +
+			" _//\"\\\\_  \r\n" +
+			"  /   \\\r\n" +
+			"";
     state=true;
   }
   public void disappear(){

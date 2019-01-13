@@ -26,12 +26,11 @@ public class SpaceSanta{
   }
 
   public static void main(String[] args){
-    player santa = new player("</^\\>", 2);
-    octopus Octopus=new octopus();
-    Terminal terminal = TerminalFacade.createTextTerminal();
+    Terminal terminal=TerminalFacade.createTextTerminal();
     terminal.enterPrivateMode();
-
-    TerminalSize size = terminal.getTerminalSize();
+    TerminalSize size=terminal.getTerminalSize();
+    player santa = new player("</^\\>", 2,size);
+    octopus Octopus=new octopus();
     terminal.setCursorVisible(false);
 
     boolean running = true;

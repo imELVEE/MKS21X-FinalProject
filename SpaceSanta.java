@@ -38,9 +38,18 @@ public class SpaceSanta{
 
     int x = 10;
     int y = size.getRows()/2;
-
-    while(running){
+    int zx=0;
+    int zy=2;
+    long tStart = System.currentTimeMillis();
+		long lastSecond = 0;
     Octopus.setPosition(size,terminal);
+    while(running){
+    Octopus.putString(zx,zy,terminal,Octopus.getName());
+    zx++;
+    if(zx==size.getRows()){
+      zx=0;
+      zy++;
+    }
     terminal.moveCursor(x,y);
     putString(x,y,terminal,santa);
     terminal.putCharacter(' ');
@@ -49,8 +58,8 @@ public class SpaceSanta{
 
     Key key = terminal.readInput();
 
-    if (key != null)
-    {
+    if (key != null){
+
 
       if (key.getKind() == Key.Kind.Escape) {
 
@@ -70,7 +79,12 @@ public class SpaceSanta{
         x++;
       }
     }
-
+    long tEnd = System.currentTimeMillis();
+    long millis = tEnd - tStart;
+  //	putString(1,2,terminal,"Milliseconds since start of program: "+millis);
+    if(millis/1000 > lastSecond){
+      lastSecond = millis / 1000;
+    }
     putString(size.getColumns()/2-2 , size.getRows()*2/3 , terminal ,  "LIVES: " + santa.getLives());
     putString(size.getColumns()/2-2 , size.getRows()*2/3+2 , terminal , "SCORE: " + santa.getScore());
     }

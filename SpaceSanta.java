@@ -27,7 +27,7 @@ public class SpaceSanta{
 
   public static void main(String[] args){
     player santa = new player("</^\\>", 2);
-
+    octopus Octopus=new octopus();
     Terminal terminal = TerminalFacade.createTextTerminal();
     terminal.enterPrivateMode();
 
@@ -40,7 +40,7 @@ public class SpaceSanta{
     int y = size.getRows()/2;
 
     while(running){
-
+    Octopus.setPosition(size,terminal);
     terminal.moveCursor(x,y);
     putString(x,y,terminal,santa);
     terminal.putCharacter(' ');

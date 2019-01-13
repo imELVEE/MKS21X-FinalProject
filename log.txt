@@ -7,4 +7,21 @@ January 8th, 2019
 --------------------------------
 Alvi : Had player.java implement CharSequence so it's compatible with Strings, etc. and made a "score" variable
        Had SpaceSanta.java use player.java and included lives and score the terminal window when running SpaceSanta
-Tanzim:Made changes to SpaceSanta.java to allow it to compile and run monster classes. Finished the monster class octopus. It too late to commit them, so I wil make a commit when I wake yp
+Tanzim:Made changes to SpaceSanta.java to allow it to compile and run monster classes. Finished the basics of monster class octopus. It is too late to commit now, so I wil make a commit when I wake yp
+Janauary 9th,2019
+-----------------
+Tanzim: made terminal demo to visualize the movement of the objects
+Still no clue to make the monster move in a different way than the player
+------------------------------
+January 10th 2019
+
+Tanzim: I found a good youtube video explaining lanterna. Helped to make sense of the terminal methods.May be can implement lanterna.screen. Found the bug that the player behaves differently when it reaches the end of the screen.
+--------------------------
+January 11th
+------------------------------------
+Tanzim:False alarm. It seems the player behaves differently only in windows. No need to fix anything there.Wrote most of the methods for the octopus class
+-------------------------
+January 12
+
+Tanzim:Made the octopus move differently. Still not ideal though.
+-------------------------

@@ -1,4 +1,5 @@
-
+import java.util.ArrayList;
+import java.util.List;
 
 //API : http://mabe02.github.io/lanterna/apidocs/2.1/
 import com.googlecode.lanterna.terminal.Terminal.SGR;
@@ -27,8 +28,8 @@ public class SpaceSanta{
 
   public static void main(String[] args){
     player santa = new player("</^\\>", 2);
-    bullet b = new bullet(0,0,0,"",0,0);
-    long bLast = System.currentTimeMillis();
+
+    List<bullet> b = new ArrayList<bullet>();
 
     Terminal terminal = TerminalFacade.createTextTerminal();
     terminal.enterPrivateMode();
@@ -73,23 +74,25 @@ public class SpaceSanta{
       }
 
       if (key.getCharacter() == ' '){
-        b = new bullet(1,1,1,"|",x+2,y-1);
-        terminal.moveCursor(b.getx(),b.gety());
-        putString(b.getx(),b.gety(),terminal,b.getSprite());
-        bLast = System.currentTimeMillis();
+        b.add(new bullet(1,1,1,"|",x+2,y-1,System.currentTimeMillis()));
       }
     }
-    if (b.gety() > 0 && System.currentTimeMillis() - bLast >= 125){
-      terminal.moveCursor(b.getx(),b.gety());
-      terminal.putCharacter(' ');
-      b.move();
-      putString(b.getx(),b.gety(),terminal,b.getSprite());
-      bLast = System.currentTimeMillis();
-    }
-    if(b.gety() == 0){
-      terminal.moveCursor(b.getx(),b.gety());
-      terminal.putCharacter(' ');
-      b = new bullet(0,0,0,"",0,0);
+
+    if (b.size() > 0){
+      for (int i = 0 ; i < b.size(); i++){
+        if (b.get(i).gety() > 0 && System.currentTimeMillis() - b.get(i).getbLast() >= 125){
+          terminal.moveCursor(b.get(i).getx(),b.get(i).gety());
+          terminal.putCharacter(' ');
+          b.get(i).move();
+          putString(b.get(i).getx(),b.get(i).gety(),terminal,b.get(i).getSprite());
+          b.get(i).setbLast(System.currentTimeMillis());
+        }
+        if (b.get(i).gety() == 0){
+          terminal.moveCursor(b.get(i).getx(),b.get(i).gety());
+          terminal.putCharacter(' ');
+          b.remove(i);
+        }
+      }
     }
 
     putString(size.getColumns()/2-2 , size.getRows()*2/3 , terminal ,  "LIVES: " + santa.getLives());

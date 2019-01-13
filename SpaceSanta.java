@@ -27,6 +27,8 @@ public class SpaceSanta{
 
   public static void main(String[] args){
     player santa = new player("</^\\>", 2);
+    bullet b = new bullet(0,0,0,"",0,0);
+    long bLast = System.currentTimeMillis();
 
     Terminal terminal = TerminalFacade.createTextTerminal();
     terminal.enterPrivateMode();
@@ -69,6 +71,25 @@ public class SpaceSanta{
         terminal.putCharacter(' ');
         x++;
       }
+
+      if (key.getCharacter() == ' '){
+        b = new bullet(1,1,1,"|",x+2,y-1);
+        terminal.moveCursor(b.getx(),b.gety());
+        putString(b.getx(),b.gety(),terminal,b.getSprite());
+        bLast = System.currentTimeMillis();
+      }
+    }
+    if (b.gety() > 0 && System.currentTimeMillis() - bLast >= 125){
+      terminal.moveCursor(b.getx(),b.gety());
+      terminal.putCharacter(' ');
+      b.move();
+      putString(b.getx(),b.gety(),terminal,b.getSprite());
+      bLast = System.currentTimeMillis();
+    }
+    if(b.gety() == 0){
+      terminal.moveCursor(b.getx(),b.gety());
+      terminal.putCharacter(' ');
+      b = new bullet(0,0,0,"",0,0);
     }
 
     putString(size.getColumns()/2-2 , size.getRows()*2/3 , terminal ,  "LIVES: " + santa.getLives());

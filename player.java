@@ -29,5 +29,4 @@ public class player implements CharSequence{
   public CharSequence subSequence(int start, int end){
     return ship.subSequence(start, end);
   }
-
 }

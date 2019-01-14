@@ -1,4 +1,5 @@
-
+import java.util.ArrayList;
+import java.util.List;
 
 //API : http://mabe02.github.io/lanterna/apidocs/2.1/
 import com.googlecode.lanterna.terminal.Terminal.SGR;
@@ -27,6 +28,8 @@ public class SpaceSanta{
 
   public static void main(String[] args){
     player santa = new player("</^\\>", 2);
+
+    List<bullet> b = new ArrayList<bullet>();
 
     Terminal terminal = TerminalFacade.createTextTerminal();
     terminal.enterPrivateMode();
@@ -68,6 +71,27 @@ public class SpaceSanta{
         terminal.moveCursor(x,y);
         terminal.putCharacter(' ');
         x++;
+      }
+
+      if (key.getCharacter() == ' '){
+        b.add(new bullet(1,1,1,"|",x+2,y-1,System.currentTimeMillis()));
+      }
+    }
+
+    if (b.size() > 0){
+      for (int i = 0 ; i < b.size(); i++){
+        if (b.get(i).gety() > 0 && System.currentTimeMillis() - b.get(i).getbLast() >= 125){
+          terminal.moveCursor(b.get(i).getx(),b.get(i).gety());
+          terminal.putCharacter(' ');
+          b.get(i).move();
+          putString(b.get(i).getx(),b.get(i).gety(),terminal,b.get(i).getSprite());
+          b.get(i).setbLast(System.currentTimeMillis());
+        }
+        if (b.get(i).gety() == 0){
+          terminal.moveCursor(b.get(i).getx(),b.get(i).gety());
+          terminal.putCharacter(' ');
+          b.remove(i);
+        }
       }
     }
 

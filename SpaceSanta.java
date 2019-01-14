@@ -27,15 +27,12 @@ public class SpaceSanta{
   }
 
   public static void main(String[] args){
-<<<<<<< HEAD
-    player santa = new player("</^\\>", 2);
 
     List<bullet> b = new ArrayList<bullet>();
 
     Terminal terminal = TerminalFacade.createTextTerminal();
-=======
-    Terminal terminal=TerminalFacade.createTextTerminal();
->>>>>>> ac04dfbd4fd2de702a2d9303a17a5888ea4a422e
+
+
     terminal.enterPrivateMode();
     TerminalSize size=terminal.getTerminalSize();
     player santa = new player("</^\\>", 2,size);

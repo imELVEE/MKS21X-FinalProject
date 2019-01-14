@@ -31,10 +31,6 @@ public class player implements CharSequence{
     this.x=10;
     this.y=size.getRows()/2;
   }
-  public bullet fire(Terminal t){
-    bullet Bullet= new bullet(this.x,this.y,t);
-    return Bullet;
-  }
   public String toString(){
     return ship;
   }
@@ -59,4 +55,3 @@ public class player implements CharSequence{
     return ship.subSequence(start, end);
   }
 }
-

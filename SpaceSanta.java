@@ -129,6 +129,14 @@ public class SpaceSanta{
           b.get(i).setbLast(System.currentTimeMillis());
         }
         if (b.get(i).gety() == 0){
+          for(int mi = 0 ; mi < monster.size() ; mi++){
+            octopus ma = monster.get(mi);
+            if (b.get(i).getx() >= ma.getX() && b.get(i).getx() <= ma.getX() + 4){
+              monster.remove(mi);
+              putString(ma.getX(),ma.getY(),terminal,"    ");
+              santa.incrementScore(50);
+            }
+          }
           terminal.moveCursor(b.get(i).getx(),b.get(i).gety());
           terminal.putCharacter(' ');
           b.remove(i);
@@ -145,6 +153,9 @@ public class SpaceSanta{
           m.get(i).setbLast(System.currentTimeMillis());
         }
         if (m.get(i).gety() == y){
+          if (m.get(i).getx() >= x && m.get(i).getx() <= x+5){
+            santa.die();
+          }
           terminal.moveCursor(m.get(i).getx(),m.get(i).gety());
           terminal.putCharacter(' ');
           m.remove(i);
@@ -182,6 +193,11 @@ public class SpaceSanta{
 
     putString(size.getColumns()/2-2 , size.getRows()*2/3 , terminal ,  "LIVES: " + santa.getLives());
     putString(size.getColumns()/2-2 , size.getRows()*2/3+2 , terminal , "SCORE: " + santa.getScore());
+
+    if (santa.getLives() <= 0){
+      terminal.exitPrivateMode();
+      running = false;
+    }
     }
 
   }

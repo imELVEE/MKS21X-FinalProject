@@ -29,6 +29,7 @@ public class SpaceSanta{
   public static void main(String[] args){
 
     List<bullet> b = new ArrayList<bullet>();
+    List<monsterbullet> m = new ArrayList<monsterbullet>();
 
     Terminal terminal = TerminalFacade.createTextTerminal();
 
@@ -51,7 +52,7 @@ public class SpaceSanta{
     Octopus.setPosition(size,terminal);
     while(running){
     terminal.applyBackgroundColor(Terminal.Color.DEFAULT);
-   terminal.applyForegroundColor(Terminal.Color.DEFAULT);
+    terminal.applyForegroundColor(Terminal.Color.DEFAULT);
     Octopus.putString(zx,zy,terminal,Octopus.getName());
     terminal.putCharacter(' ');
 
@@ -113,11 +114,31 @@ public class SpaceSanta{
         }
       }
     }
+    if (m.size() > 0){
+      for (int i = 0 ; i < m.size(); i++){
+        if (m.get(i).gety() < y && System.currentTimeMillis() - m.get(i).getbLast() >= 125){
+          terminal.moveCursor(m.get(i).getx(),m.get(i).gety());
+          terminal.putCharacter(' ');
+          m.get(i).move();
+          putString(m.get(i).getx(),m.get(i).gety(),terminal,m.get(i).getSprite());
+          m.get(i).setbLast(System.currentTimeMillis());
+        }
+        if (m.get(i).gety() == y){
+          terminal.moveCursor(m.get(i).getx(),m.get(i).gety());
+          terminal.putCharacter(' ');
+          m.remove(i);
+        }
+      }
+    }
+
     long tEnd = System.currentTimeMillis();
     long millis = tEnd - tStart;
   //	putString(1,2,terminal,"Milliseconds since start of program: "+millis);
     if(millis/1000 > lastSecond){
       lastSecond = millis / 1000;
+      if (Math.random()*10 <= 3.5){
+        m.add(new monsterbullet(1,1,1,"|",zx+2,zy+1,System.currentTimeMillis()));
+      }
     }
     long tLastCount=millis;
 

@@ -174,6 +174,9 @@ public class SpaceSanta{
           m.add(new monsterbullet(1,1,1,"|",a.getX()+2,a.getY()+1,System.currentTimeMillis()));
         }
       }
+      if (Math.random()*10 <= 2.5){
+        monster.add(new octopus(0,2));
+      }
     }
     long tLastCount=millis;
 

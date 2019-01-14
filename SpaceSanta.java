@@ -28,7 +28,18 @@ public class SpaceSanta{
 
   public static void main(String[] args){
 
+
     List<bullet> b = new ArrayList<bullet>();
+    List<octopus>monster=new ArrayList<octopus>();
+    int num=(int) (Math.random()*4)+1;
+    octopus Octopus2;
+    int zx=0;
+    int zy=2;
+    for(int i=0;i<num;i++){
+      Octopus2=new octopus(zx,zy);
+      monster.add(Octopus2);
+      zx+=10;
+    }
 
     Terminal terminal = TerminalFacade.createTextTerminal();
 
@@ -36,31 +47,46 @@ public class SpaceSanta{
     terminal.enterPrivateMode();
     TerminalSize size=terminal.getTerminalSize();
     player santa = new player("</^\\>", 2,size);
-    octopus Octopus=new octopus();
+  //  octopus Octopus=new octopus();
     terminal.setCursorVisible(false);
 
     boolean running = true;
 
     int x = 10;
     int y = size.getRows()/2;
-    int zx=0;
-    int zy=2;
     long tStart = System.currentTimeMillis();
     long tCount=0;
 		long lastSecond = 0;
-    Octopus.setPosition(size,terminal);
+    //Octopus.setPosition(size,terminal);  // you may need to use this
     while(running){
     terminal.applyBackgroundColor(Terminal.Color.DEFAULT);
    terminal.applyForegroundColor(Terminal.Color.DEFAULT);
-    Octopus.putString(zx,zy,terminal,Octopus.getName());
-    terminal.putCharacter(' ');
-
-    if(zx==size.getRows()*4 ){
-      terminal.moveCursor(zx,zy);
+   for(int i=0;i<monster.size();i++){   // change this
+     octopus a=monster.get(i);
+     a.putString(a.getX(),a.getY(), terminal,a.getName());
+     terminal.putCharacter(' ');
+   }//
+  //  Octopus.putString(zx,zy,terminal,Octopus.getName());  part of the single code
+  //  terminal.putCharacter(' ');
+  //
+  //this test if the monster had reached the end of the screen
+    for(int i=0;i<monster.size();i++){
+    octopus a= monster.get(i);
+    if(a.getX()==size.getRows()*4){
+      terminal.moveCursor(a.getX(),a.getY());
       terminal.putCharacter(' ');
-      zx=0;
-      zy++;
+      a.setX(0);
+      a.setY(a.getY()+1);
     }
+  }
+//end of code of that
+
+  //  if(zx==size.getRows()*4 ){
+  //    terminal.moveCursor(zx,zy);
+  //    terminal.putCharacter(' ');
+  //    zx=0;
+  //    zy++;
+    //}
    terminal.applyBackgroundColor(Terminal.Color.DEFAULT);
    terminal.applyForegroundColor(Terminal.Color.DEFAULT);
    terminal.moveCursor(x,y);
@@ -121,16 +147,24 @@ public class SpaceSanta{
     }
     long tLastCount=millis;
 
-    if(tLastCount-tCount>40){
+    if(tLastCount-tCount>20){
       long temporary=tLastCount;
       tCount=tLastCount;
-      terminal.moveCursor(zx,zy);
-      terminal.putCharacter(' ');
-      zx++;
-    }
+      for(int i=0;i<monster.size();i++){
+        octopus d=monster.get(i);
+        terminal.moveCursor(d.getX(),d.getY());
+        terminal.putCharacter(' ');
+        d.setX(d.getX()+1);
+      }
+      //terminal.moveCursor(zx,zy);
+      //terminal.putCharacter(' ');
+    //  zx++;
+  }
 
     putString(size.getColumns()/2-2 , size.getRows()*2/3 , terminal ,  "LIVES: " + santa.getLives());
     putString(size.getColumns()/2-2 , size.getRows()*2/3+2 , terminal , "SCORE: " + santa.getScore());
     }
+
   }
 }
+

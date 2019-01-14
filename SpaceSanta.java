@@ -121,7 +121,7 @@ public class SpaceSanta{
 
     if (b.size() > 0){
       for (int i = 0 ; i < b.size(); i++){
-        if (b.get(i).gety() > 0 && System.currentTimeMillis() - b.get(i).getbLast() >= 125){
+        if (b.get(i).gety() > 0 && System.currentTimeMillis() - b.get(i).getbLast() >= 50){
           terminal.moveCursor(b.get(i).getx(),b.get(i).gety());
           terminal.putCharacter(' ');
           b.get(i).move();
@@ -145,7 +145,7 @@ public class SpaceSanta{
     }
     if (m.size() > 0){
       for (int i = 0 ; i < m.size(); i++){
-        if (m.get(i).gety() < y && System.currentTimeMillis() - m.get(i).getbLast() >= 125){
+        if (m.get(i).gety() < y && System.currentTimeMillis() - m.get(i).getbLast() >= 50){
           terminal.moveCursor(m.get(i).getx(),m.get(i).gety());
           terminal.putCharacter(' ');
           m.get(i).move();

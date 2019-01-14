@@ -27,24 +27,46 @@ public class SpaceSanta{
   }
 
   public static void main(String[] args){
+<<<<<<< HEAD
     player santa = new player("</^\\>", 2);
 
     List<bullet> b = new ArrayList<bullet>();
 
     Terminal terminal = TerminalFacade.createTextTerminal();
+=======
+    Terminal terminal=TerminalFacade.createTextTerminal();
+>>>>>>> ac04dfbd4fd2de702a2d9303a17a5888ea4a422e
     terminal.enterPrivateMode();
-
-    TerminalSize size = terminal.getTerminalSize();
+    TerminalSize size=terminal.getTerminalSize();
+    player santa = new player("</^\\>", 2,size);
+    octopus Octopus=new octopus();
     terminal.setCursorVisible(false);
 
     boolean running = true;
 
     int x = 10;
     int y = size.getRows()/2;
-
+    int zx=0;
+    int zy=2;
+    long tStart = System.currentTimeMillis();
+    long tCount=0;
+		long lastSecond = 0;
+    Octopus.setPosition(size,terminal);
     while(running){
+    terminal.applyBackgroundColor(Terminal.Color.DEFAULT);
+   terminal.applyForegroundColor(Terminal.Color.DEFAULT);
+    Octopus.putString(zx,zy,terminal,Octopus.getName());
+    terminal.putCharacter(' ');
 
-    terminal.moveCursor(x,y);
+    if(zx==size.getRows()*4 ){
+      terminal.moveCursor(zx,zy);
+      terminal.putCharacter(' ');
+      zx=0;
+      zy++;
+    }
+   terminal.applyBackgroundColor(Terminal.Color.DEFAULT);
+   terminal.applyForegroundColor(Terminal.Color.DEFAULT);
+   terminal.moveCursor(x,y);
     putString(x,y,terminal,santa);
     terminal.putCharacter(' ');
     terminal.applyBackgroundColor(Terminal.Color.DEFAULT);
@@ -52,8 +74,8 @@ public class SpaceSanta{
 
     Key key = terminal.readInput();
 
-    if (key != null)
-    {
+    if (key != null){
+
 
       if (key.getKind() == Key.Kind.Escape) {
 
@@ -93,6 +115,21 @@ public class SpaceSanta{
           b.remove(i);
         }
       }
+    }
+    long tEnd = System.currentTimeMillis();
+    long millis = tEnd - tStart;
+  //	putString(1,2,terminal,"Milliseconds since start of program: "+millis);
+    if(millis/1000 > lastSecond){
+      lastSecond = millis / 1000;
+    }
+    long tLastCount=millis;
+
+    if(tLastCount-tCount>40){
+      long temporary=tLastCount;
+      tCount=tLastCount;
+      terminal.moveCursor(zx,zy);
+      terminal.putCharacter(' ');
+      zx++;
     }
 
     putString(size.getColumns()/2-2 , size.getRows()*2/3 , terminal ,  "LIVES: " + santa.getLives());

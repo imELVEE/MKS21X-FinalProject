@@ -32,12 +32,15 @@ public class SpaceSanta{
     List<bullet> b = new ArrayList<bullet>();
     List<monsterbullet> m = new ArrayList<monsterbullet>();
     List<octopus> monster = new ArrayList<octopus>();
-    int num=(int) (Math.random()*4)+1;
+    int num=(int) (Math.random()*6)+4;
 
     int zx=0;
     int zy=2;
     for(int i=0;i<num;i++){
       monster.add(new octopus(zx,zy));
+      monster.add(new octopus(zx,zy+1));
+      monster.add(new octopus(zx,zy+2));
+      monster.add(new octopus(zx,zy+3));
       zx+=10;
     }
 
@@ -72,6 +75,7 @@ public class SpaceSanta{
      octopus a=monster.get(i);
      a.putString(a.getX(),a.getY(), terminal,a.getName());
      terminal.putCharacter(' ');
+    
    }
     for(int i=0;i<monster.size();i++){
     octopus a= monster.get(i);
@@ -80,6 +84,10 @@ public class SpaceSanta{
       terminal.putCharacter(' ');
       a.setX(0);
       a.setY(a.getY()+1);
+//      if (Math.random()*10 <= 2.5){
+  //       octopus dummy= new octopus(a.getX()+10,a.getY());
+    //     monster.add(dummy);
+     // }
     }
   }
 
@@ -174,9 +182,7 @@ public class SpaceSanta{
           m.add(new monsterbullet(1,1,1,"|",a.getX()+2,a.getY()+1,System.currentTimeMillis()));
         }
       }
-      if (Math.random()*10 <= 2.5){
-        monster.add(new octopus(0,2));
-      }
+    
     }
     long tLastCount=millis;
 

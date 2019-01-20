@@ -1,8 +1,8 @@
-//API : http://mabe02.github.io/lanterna/apidocs/2.1/ import com.googlecode.lanterna.terminal.Terminal.SGR; import com.googlecode.lanterna.TerminalFacade; 
+//API : http://mabe02.github.io/lanterna/apidocs/2.1/ import com.googlecode.lanterna.terminal.Terminal.SGR; import com.googlecode.lanterna.TerminalFacade;
 import com.googlecode.lanterna.input.Key; import com.googlecode.lanterna.input.Key.Kind; import com.googlecode.lanterna.terminal.Terminal; import
 com.googlecode.lanterna.terminal.Terminal.Color; import com.googlecode.lanterna.terminal.TerminalSize; import com.googlecode.lanterna.LanternaException; import
 com.googlecode.lanterna.input.CharacterPattern; import com.googlecode.lanterna.input.InputDecoder; import com.googlecode.lanterna.input.InputProvider; import
-com.googlecode.lanterna.input.Key; import com.googlecode.lanterna.input.KeyMappingProfile; public class octopus {
+com.googlecode.lanterna.input.Key; import com.googlecode.lanterna.input.KeyMappingProfile; public class octopus implements monster{
   private String name;
   private boolean alive;
   private int x;
@@ -49,5 +49,25 @@ com.googlecode.lanterna.input.Key; import com.googlecode.lanterna.input.KeyMappi
   }
   public String getName(){
     return this.name;
+  }
+  public int getSize(){
+    return name.length();
+  }
+  public void move(){
+    x++;
+  }
+  public void moveDown(){
+    y++;
+  }
+  public String monstertype(){
+    return "octopus";
+  }
+  public void toggle(){
+    if (name.equals("(oo)")){
+      name = "~oo~";
+    }
+    else{
+      name = "(oo)";
+    }
   }
 }

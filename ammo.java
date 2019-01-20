@@ -2,7 +2,10 @@ public interface ammo{
   public int getSpeed();
   public int getDamage();
   public int getSize();
-  public void setSpeed(int sped);
-  public void setDamage(int dam);
-  public void setSize(int siz);
+  public int getx();
+  public int gety();
+  public long getbLast();
+  public void setbLast(long val);
+  public int move();
+  public String getSprite();
 }

@@ -18,6 +18,7 @@ public class player implements CharSequence{
   private int score;
   int x;
   int y;
+  public boolean stunned = false;
   public void setX(int x){
     this.x=x;
   }
@@ -55,5 +56,14 @@ public class player implements CharSequence{
   }
   public CharSequence subSequence(int start, int end){
     return ship.subSequence(start, end);
+  }
+  public void stun(){
+    stunned = true;
+  }
+  public void unstun(){
+    stunned = false;
+  }
+  public boolean notStunned(){
+    return !stunned;
   }
 }

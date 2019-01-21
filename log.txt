@@ -49,4 +49,5 @@ Tanzim: octopus pack exists, working on crab pack
 --------------------------------------
 Janauary20
 Tanzim: made packs for crabs, worked on randomization. Rejected the toggle method developed. 
+Alright, done with levels and user interface for the game. Alvi, feel feel to add colours or change the size of the text of the interface. Don't however, mess around with the algorithm of the pack. Leave it as it is. The level progression algorithm is also implemented. Read it and incorporate it to suit your boss monster.After you are done with boss, create a new mode 5 that will basically decalre winner if the player bearts all the levels.
 

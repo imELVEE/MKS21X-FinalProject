@@ -3,3 +3,4 @@
 2. After downloading and compiling SpaceSanta.java type into the terminal to play: java -cp lanterna.jar:. SpaceSanta
 3. Left and right arrows are for moving around while the spacebar is for shooting
 4. Stop playing by pressing Escape(esc)
+5. Make sure your termnal is at 168 Columsns and 44 Lines

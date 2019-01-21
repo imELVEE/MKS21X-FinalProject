@@ -4,3 +4,4 @@
 3. Left and right arrows are for moving around while the spacebar is for shooting
 4. Stop playing by pressing Escape(esc)
 5. Make sure your termnal is at 168 Columsns and 44 Lines
+6.don't keep the spacebar pressed, it will ruin the fun of the game.

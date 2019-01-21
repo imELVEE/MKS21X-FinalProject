@@ -32,19 +32,34 @@ public class SpaceSanta{
     List<bullet> b = new ArrayList<bullet>();
     List<ammo> m = new ArrayList<ammo>();
     List<monster> monsterList = new ArrayList<monster>();
-    int num=(int) (Math.random()*4)+1;
+    int num=(int) (Math.random()*2)+4;
 
     int zx=0;
     int zy=2;
-    for(int i=0;i<num;i++){
-      if (Math.random()*10 <= 5){
-        monsterList.add(new octopus(zx,zy));
-      }
-      else{
-        monsterList.add(new crab(zx,zy));
-      }
-      zx+=10;
+  //  for(int i=0;i<num;i++){
+  //    if (Math.random()*10 <= 5){
+  //      monsterList.add(new octopus(zx,zy));
+  ////    }
+      //else{
+    ////    monsterList.add(new crab(zx,zy));
+      //}
+      //zx+=10;
+    //}
+    for(int i=0; i<num;i++){
+        if((int)(Math.random()*10)<=4){
+             monsterList.add(new octopus(zx,zy));
+             monsterList.add(new octopus(zx,zy+1));
+             monsterList.add(new octopus(zx,zy+2));
+        }
+        else{
+          monsterList.add(new crab(zx,zy));
+          monsterList.add(new crab(zx,zy+1));
+          monsterList.add(new crab(zx,zy+2));
+       }
+       zx+=10;
     }
+
+
 
     Terminal terminal = TerminalFacade.createTextTerminal();
 
@@ -59,8 +74,8 @@ public class SpaceSanta{
     int x = 10;
     int y = size.getRows()/2;
     long tStart = System.currentTimeMillis();
-    long tCount=0;
-		long lastSecond = 0;
+    long tCount=0;	
+    long lastSecond = 0;
     long last2sec = 0;
     //Octopus.setPosition(size,terminal);  // you may need to use this
     while(running){
@@ -194,22 +209,24 @@ public class SpaceSanta{
           }
         }
       }
-      if (Math.random()*10 <= 2.5){
-        if (Math.random()*10 <= 5){
-          monsterList.add(new octopus(0,2));
-        }
-        else{
-          monsterList.add(new crab(0,2));
-        }
-      }
-    }
-    if(millis/2000 > last2sec){
-      last2sec = millis / 2000;
+    //  if (Math.random()*10 <= 2.5){
+    //    if (Math.random()*10 <= 5){
+    //      monsterList.add(new octopus(0,2));
+    //    }
+      //  else{
+      
+        //}
+      //}
+    }// this is for the above for loop
+
+  if(millis/5000 > last2sec){
+     last2sec = millis / 2000;
       santa.unstun();
-      for(int i = 0 ; i < monsterList.size() ; i++){
-        monsterList.get(i).toggle();
-      }
-    }
+      //for(int i = 0 ; i < monsterList.size() ; i++){
+       // monsterList.get(i).toggle();
+     // }
+   // }
+   }
     long tLastCount=millis;
     // this is where the monster changes x
 
@@ -238,3 +255,4 @@ public class SpaceSanta{
 
   }
 }
+

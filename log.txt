@@ -39,9 +39,14 @@ January 13, 2019
 ------------------------------
 Alvi: Made monsterbullets, octopi now fire monsterbullets and randomly spawn in. Player bullets
       now kill octopi and monsterbullets kill the player. Terminal exits when player dies and score goes up when monster dies.
-
+Tanzim:Octopus moved ideally
 January 16-19, 2019
 ------------------------------
 Alvi: Crabs now exist, fire different bullets, and stun feature works (CHANGES PLAYER COLOR :O), no bugs so far.
       Animation for enemies implemented although they look a bit buggy so if monster movement speed doesn't changes
       then animation will be removed.
+Tanzim: octopus pack exists, working on crab pack
+--------------------------------------
+Janauary20
+Tanzim: made packs for crabs, worked on randomization. Rejected the toggle method developed. 
+

@@ -67,23 +67,28 @@ public class SpaceSanta{
     //Octopus.setPosition(size,terminal);  // you may need to use this
     while(running){
       if(mode==4){
+        zx=0;
+        zy=2;
         long currentTime=System.currentTimeMillis();
         putString(size.getColumns()/2-2 , size.getRows()/2 , terminal , "NEXTLEVEL!");
         if(currentTime/1000-timeStart/1000>4){
             mode=2;
             terminal.clearScreen();
-            random+=2;
+       
+            random=(int)(Math.random()*2)+1;
             int number=(int) (Math.random()*2)+4+random;// the last random is a global variable
-            for(int i=0;i<num;i++){
+            for(int i=0;i<number;i++){
              if (Math.random()*10 <= 5){
               monsterList.add(new octopus(zx,zy));
               monsterList.add(new octopus(zx,zy+1));
               monsterList.add(new octopus(zx,zy+2));
+            
              }
               else{
                 monsterList.add(new crab(zx,zy));
                 monsterList.add(new crab(zx,zy+1));
                 monsterList.add(new crab(zx,zy+2));
+                    
               }
               zx+=10;
             }
@@ -127,7 +132,7 @@ public class SpaceSanta{
       putString(size.getColumns()/2-2 , size.getRows()/2-3 , terminal , "HIGHSCORE: " + score);
       putString(size.getColumns()/2-2 , size.getRows()/2-6 , terminal , "CURRENTSCORE: " + santa.getScore());
       putString
-      (size.getColumns()/2-2 , size.getRows()/2-9 , terminal , "press space to play again or esc to escape");
+      (size.getColumns()/2-2 , size.getRows()/2-9 , terminal , "press  esc to escape");
 
 }
     if(mode==2){
@@ -136,9 +141,7 @@ public class SpaceSanta{
     //Octopus.putString(zx,zy,terminal,Octopus.getName());
     terminal.putCharacter(' ');
 
-    if(zx==size.getRows()*4 ){
-      terminal.moveCursor(zx,zy);
-    }
+ 
    terminal.applyForegroundColor(Terminal.Color.DEFAULT);
    for(int i=0;i<monsterList.size();i++){   // change this
      monster a=monsterList.get(i);

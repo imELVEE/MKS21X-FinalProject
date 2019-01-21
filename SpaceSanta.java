@@ -28,57 +28,109 @@ public class SpaceSanta{
 
   public static void main(String[] args){
 
+    Terminal terminal = TerminalFacade.createTextTerminal();
+    terminal.enterPrivateMode();
+    TerminalSize size=terminal.getTerminalSize();
+    terminal.setCursorVisible(false);
+    int mode=1;
+    int score=0;
 
     List<bullet> b = new ArrayList<bullet>();
     List<ammo> m = new ArrayList<ammo>();
     List<monster> monsterList = new ArrayList<monster>();
     int num=(int) (Math.random()*2)+4;
-
+    int random=0;// this is used to make the game more challenging with each level progression
     int zx=0;
     int zy=2;
-  //  for(int i=0;i<num;i++){
-  //    if (Math.random()*10 <= 5){
-  //      monsterList.add(new octopus(zx,zy));
-  ////    }
-      //else{
-    ////    monsterList.add(new crab(zx,zy));
-      //}
-      //zx+=10;
-    //}
-    for(int i=0; i<num;i++){
-        if((int)(Math.random()*10)<=4){
-             monsterList.add(new octopus(zx,zy));
-             monsterList.add(new octopus(zx,zy+1));
-             monsterList.add(new octopus(zx,zy+2));
-        }
-        else{
-          monsterList.add(new crab(zx,zy));
-          monsterList.add(new crab(zx,zy+1));
-          monsterList.add(new crab(zx,zy+2));
-       }
-       zx+=10;
+    for(int i=0;i<num;i++){
+     if (Math.random()*10 <= 5){
+      monsterList.add(new octopus(zx,zy));
+      monsterList.add(new octopus(zx,zy+1));
+      monsterList.add(new octopus(zx,zy+2));
+     }
+      else{
+        monsterList.add(new crab(zx,zy));
+        monsterList.add(new crab(zx,zy+1));
+        monsterList.add(new crab(zx,zy+2));
+      }
+      zx+=10;
     }
-
-
-
-    Terminal terminal = TerminalFacade.createTextTerminal();
-
-
-    terminal.enterPrivateMode();
-    TerminalSize size=terminal.getTerminalSize();
     player santa = new player("</^\\>", 2,size);
-    terminal.setCursorVisible(false);
-
     boolean running = true;
-
     int x = 10;
     int y = size.getRows()/2;
     long tStart = System.currentTimeMillis();
-    long tCount=0;	
-    long lastSecond = 0;
+    long tCount=0;
+		long lastSecond = 0;
     long last2sec = 0;
+    long timeStart=System.currentTimeMillis();
     //Octopus.setPosition(size,terminal);  // you may need to use this
     while(running){
+      if(mode==4){
+        long currentTime=System.currentTimeMillis();
+        putString(size.getColumns()/2-2 , size.getRows()/2 , terminal , "NEXTLEVEL!");
+        if(currentTime/1000-timeStart/1000>4){
+            mode=2;
+            terminal.clearScreen();
+            random+=2;
+            int number=(int) (Math.random()*2)+4+random;// the last random is a global variable
+            for(int i=0;i<num;i++){
+             if (Math.random()*10 <= 5){
+              monsterList.add(new octopus(zx,zy));
+              monsterList.add(new octopus(zx,zy+1));
+              monsterList.add(new octopus(zx,zy+2));
+             }
+              else{
+                monsterList.add(new crab(zx,zy));
+                monsterList.add(new crab(zx,zy+1));
+                monsterList.add(new crab(zx,zy+2));
+              }
+              zx+=10;
+            }
+        }
+      }
+      if(mode==1){
+        putString(size.getColumns()/2-2 , size.getRows()/2+5 , terminal ,  "Press Space to play game ");
+        putString(size.getColumns()/2-2 , size.getRows()/2 , terminal , "HighScore: "+ score);
+        Key key = terminal.readInput();
+
+        if (key != null ){
+          if (key.getKind() == Key.Kind.Escape) {
+            terminal.exitPrivateMode();
+            running=false;
+          }
+          if (key.getCharacter() == ' '){
+            mode=2;
+            terminal.clearScreen();
+          }
+      }
+    }
+    if(mode==3){
+
+      Key key = terminal.readInput();
+      if (score<santa.getScore()){
+        score=santa.getScore();
+      }
+      if (key != null ){
+        if (key.getKind() == Key.Kind.Escape) {
+          terminal.exitPrivateMode();
+          running=false;
+
+        }
+        if (key.getCharacter() == ' '){
+          mode=2;
+          terminal.clearScreen();
+        }
+    }
+
+      putString(size.getColumns()/2-2 , size.getRows()/2 , terminal ,  "YOU LOST!");
+      putString(size.getColumns()/2-2 , size.getRows()/2-3 , terminal , "HIGHSCORE: " + score);
+      putString(size.getColumns()/2-2 , size.getRows()/2-6 , terminal , "CURRENTSCORE: " + santa.getScore());
+      putString
+      (size.getColumns()/2-2 , size.getRows()/2-9 , terminal , "press space to play again or esc to escape");
+
+}
+    if(mode==2){
     terminal.applyBackgroundColor(Terminal.Color.DEFAULT);
     terminal.applyForegroundColor(Terminal.Color.DEFAULT);
     //Octopus.putString(zx,zy,terminal,Octopus.getName());
@@ -214,19 +266,17 @@ public class SpaceSanta{
     //      monsterList.add(new octopus(0,2));
     //    }
       //  else{
-      
+      //    monsterList.add(new crab(0,2));
         //}
       //}
     }// this is for the above for loop
-
-  if(millis/5000 > last2sec){
-     last2sec = millis / 2000;
+    if(millis/2000 > last2sec){
+      last2sec = millis / 2000;
       santa.unstun();
-      //for(int i = 0 ; i < monsterList.size() ; i++){
-       // monsterList.get(i).toggle();
-     // }
-   // }
-   }
+    //  for(int i = 0 ; i < monsterList.size() ; i++){
+    //    monsterList.get(i).toggle();
+      //}
+    }
     long tLastCount=millis;
     // this is where the monster changes x
 
@@ -246,13 +296,18 @@ public class SpaceSanta{
 
     putString(size.getColumns()/2-2 , size.getRows()*2/3 , terminal ,  "LIVES: " + santa.getLives());
     putString(size.getColumns()/2-2 , size.getRows()*2/3+2 , terminal , "SCORE: " + santa.getScore());
+    if(monsterList.size()==0){
+      mode=4;
+      timeStart=System.currentTimeMillis();
+      terminal.clearScreen();
 
+    }
     if (santa.getLives() <= 0){
-      terminal.exitPrivateMode();
-      running = false;
+      mode=3;
+      terminal.clearScreen();
+      }
     }
-    }
-
   }
+ }
 }
 

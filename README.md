@@ -1,11 +1,13 @@
 #Instructions
 
-1. Download all files, compile SpaceSanta.java if not already compiled by typing: javac -cp lanterna.jar:. SpaceSanta.java
-2. After downloading and compiling SpaceSanta.java type into the terminal to play: java -cp lanterna.jar:. SpaceSanta
-3. Left and right arrows are for moving around while the spacebar is for shooting
-4. Stop playing by pressing Escape(esc)
-5. Make sure your termnal is at 168 Columsns and 44 Lines.
-6.don't keep the spacebar pressed, it will ruin the fun of the game.
-7. Tanzim's repo link 
+1. Download all files
+2. Type in: ./run.sh
+3. SpaceSanta should now start, jump to step 7, if spaceSanta does not start follow steps 4-6
+4. Make sure the terminal is sized 170x52 (170 columns, 52 rows)
+5. Type in: javac -cp lanterna.jar:. SpaceSanta.java
+6. Type in: java -cp lanterna.jar:. SpaceSanta
+7. esc to exit, arrow keys to move, and spacebar to shoot
+
+8. Tanzim's repo link 
 https://github.com/tanzimelahi/MKS21X-FinalProject
 The project is in Alvi's repo by the way

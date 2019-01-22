@@ -42,7 +42,7 @@ public class SpaceSanta{
     List<bullet> b = new ArrayList<bullet>();
     List<ammo> m = new ArrayList<ammo>();
     List<monster> monsterList = new ArrayList<monster>();
-    int num=(int) (Math.random()*2)+7;
+    int num=(int) (Math.random()*2)+4;
     int random=0;// this is used to make the game more challenging with each level progression
     int zx=0;
     int zy=2;
@@ -83,15 +83,9 @@ public class SpaceSanta{
           if (difficulty%5 != 0){
             mode=2;
             terminal.clearScreen();
-<<<<<<< HEAD
 
             random=(int)(Math.random()*2)+difficulty;
             int number=(int) (Math.random()*2)+4+random;// the last random is a global variable
-=======
-       
-            random=(int)(Math.random()*2)+1;
-            int number=(int) (Math.random()*2)+7+random;// the last random is a global variable
->>>>>>> 562c5e510a2b2e3f8ea70c871016362eb0560805
             for(int i=0;i<number;i++){
              if (Math.random()*10 <= 5){
               monsterList.add(new octopus(zx,zy));

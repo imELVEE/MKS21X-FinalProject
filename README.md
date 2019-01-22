@@ -6,3 +6,6 @@
 4. Stop playing by pressing Escape(esc)
 5. Make sure your termnal is at 168 Columsns and 44 Lines
 6.don't keep the spacebar pressed, it will ruin the fun of the game.
+7. Tanzim's repo link 
+https://github.com/tanzimelahi/MKS21X-FinalProject
+The project is in Alvi's repo by the way

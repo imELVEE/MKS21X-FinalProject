@@ -29,6 +29,7 @@ public class SpaceSanta{
   public static void main(String[] args){
     reindeer boss = new reindeer(0);
     int life = 10;
+    int rx = 0;
 
     Terminal terminal = TerminalFacade.createTextTerminal();
     terminal.enterPrivateMode();
@@ -61,7 +62,7 @@ public class SpaceSanta{
     player santa = new player("</^\\>", 2,size);
     boolean running = true;
     int x = 10;
-    int y = size.getRows()/2 + 10;
+    int y = size.getRows()/2 + 15;
     long tStart = System.currentTimeMillis();
     long tCount=0;
 		long lastSecond = 0;
@@ -78,6 +79,7 @@ public class SpaceSanta{
         monsterList.clear();
         b.clear();
         if(currentTime/1000-timeStart/1000>3){
+          difficulty++;
           if (difficulty%5 != 0){
             mode=2;
             terminal.clearScreen();
@@ -107,7 +109,6 @@ public class SpaceSanta{
             terminal.clearScreen();
 
           }
-          difficulty++;
         }
       }
       if(mode==1){
@@ -334,9 +335,9 @@ public class SpaceSanta{
     //  zx++;
   }
 
-    putString(size.getColumns()/2-2 , size.getRows()*2/3+6 , terminal ,  "LIVES: " + santa.getLives());
-    putString(size.getColumns()/2-2 , size.getRows()*2/3+8 , terminal , "SCORE: " + santa.getScore());
-    putString(size.getColumns()/2-2 , size.getRows()*2/3+10 , terminal , "LEVEL: " + difficulty);
+    putString(size.getColumns()/2-2 , size.getRows()*2/3+10 , terminal ,  "LIVES: " + santa.getLives());
+    putString(size.getColumns()/2-2 , size.getRows()*2/3+12 , terminal , "SCORE: " + santa.getScore());
+    putString(size.getColumns()/2-2 , size.getRows()*2/3+14 , terminal , "LEVEL: " + difficulty);
     if(monsterList.size()==0){
       mode=4;
       timeStart=System.currentTimeMillis();
@@ -375,7 +376,15 @@ public class SpaceSanta{
      }
      terminal.applyForegroundColor(Terminal.Color.DEFAULT);
      terminal.putCharacter(' ');
-     putString((size.getColumns()/2)-(boss.length()/2), 4, terminal, boss.getSprite());
+
+
+
+
+
+
+
+
+     putString((size.getColumns()/2)-(boss.length()/2)+rx, 4, terminal, boss.getSprite());
 
       Key key = terminal.readInput();
 
@@ -459,15 +468,13 @@ public class SpaceSanta{
 
       if(millis/1000 > lastSecond){
         lastSecond = millis / 1000;
-        if (Math.random()*10 <= 3.5){
-          int xpos = (size.getColumns()/2) + (int)(Math.random()*100%boss.length());
-          int ypos = 4 + (int)(Math.random()*100%boss.height());
-          if (Math.random() <= .5){
-            m.add(new crabbullet(xpos,ypos,System.currentTimeMillis()));
-          }
-          else{
-            m.add(new octopusbullet(xpos,ypos,System.currentTimeMillis()));
-          }
+        if(rx>0){
+          rx--;
+          boss.inbetweenminus();
+        }
+        else{
+          rx++;
+          boss.inbetweenplus();
         }
       }
 
@@ -477,9 +484,9 @@ public class SpaceSanta{
       }
       long tLastCount=millis;
 
-      putString(size.getColumns()/2-2 , size.getRows()*2/3+6 , terminal ,  "LIVES: " + santa.getLives());
-      putString(size.getColumns()/2-2 , size.getRows()*2/3+8 , terminal , "SCORE: " + santa.getScore());
-      putString(size.getColumns()/2-2 , size.getRows()*2/3+10 , terminal , "LEVEL: " + difficulty);
+      putString(size.getColumns()/2-2 , size.getRows()*2/3+10 , terminal ,  "LIVES: " + santa.getLives());
+      putString(size.getColumns()/2-2 , size.getRows()*2/3+12 , terminal , "SCORE: " + santa.getScore());
+      putString(size.getColumns()/2-2 , size.getRows()*2/3+14 , terminal , "LEVEL: " + difficulty);
       if (boss.getLife() <= 0){
         mode=4;
         timeStart=System.currentTimeMillis();
@@ -488,6 +495,16 @@ public class SpaceSanta{
       if (santa.getLives() <= 0){
         mode=3;
         terminal.clearScreen();
+      }
+      if (Math.random()*10 <= .5){
+        int xpos = ((size.getColumns()/2) - (boss.length()/2) + (int)(Math.random()*100%boss.length()));
+        int ypos = 4 + (int)(Math.random()*100%boss.height());
+        if (Math.random() <= .5){
+          m.add(new crabbullet(xpos,ypos,System.currentTimeMillis()));
+        }
+        else{
+          m.add(new octopusbullet(xpos,ypos,System.currentTimeMillis()));
+        }
       }
     }
 

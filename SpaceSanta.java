@@ -27,6 +27,8 @@ public class SpaceSanta{
   }
 
   public static void main(String[] args){
+    reindeer boss = new reindeer(0);
+    int life = 10;
 
     Terminal terminal = TerminalFacade.createTextTerminal();
     terminal.enterPrivateMode();
@@ -34,6 +36,7 @@ public class SpaceSanta{
     terminal.setCursorVisible(false);
     int mode=1;
     int score=0;
+    int difficulty = 1;
 
     List<bullet> b = new ArrayList<bullet>();
     List<ammo> m = new ArrayList<ammo>();
@@ -58,7 +61,7 @@ public class SpaceSanta{
     player santa = new player("</^\\>", 2,size);
     boolean running = true;
     int x = 10;
-    int y = size.getRows()/2;
+    int y = size.getRows()/2 + 10;
     long tStart = System.currentTimeMillis();
     long tCount=0;
 		long lastSecond = 0;
@@ -71,27 +74,40 @@ public class SpaceSanta{
         zy=2;
         long currentTime=System.currentTimeMillis();
         putString(size.getColumns()/2-2 , size.getRows()/2 , terminal , "NEXTLEVEL!");
-        if(currentTime/1000-timeStart/1000>4){
+        m.clear();
+        monsterList.clear();
+        b.clear();
+        if(currentTime/1000-timeStart/1000>3){
+          if (difficulty%5 != 0){
             mode=2;
             terminal.clearScreen();
-       
-            random=(int)(Math.random()*2)+1;
+
+            random=(int)(Math.random()*2)+difficulty;
             int number=(int) (Math.random()*2)+4+random;// the last random is a global variable
             for(int i=0;i<number;i++){
              if (Math.random()*10 <= 5){
               monsterList.add(new octopus(zx,zy));
               monsterList.add(new octopus(zx,zy+1));
               monsterList.add(new octopus(zx,zy+2));
-            
+
              }
               else{
                 monsterList.add(new crab(zx,zy));
                 monsterList.add(new crab(zx,zy+1));
                 monsterList.add(new crab(zx,zy+2));
-                    
+
               }
               zx+=10;
             }
+          }
+          else{
+            boss = new reindeer(life);
+            life = life * 2;
+            mode = 5;
+            terminal.clearScreen();
+
+          }
+          difficulty++;
         }
       }
       if(mode==1){
@@ -106,6 +122,19 @@ public class SpaceSanta{
           }
           if (key.getCharacter() == ' '){
             mode=2;
+            for(int i=0;i<num;i++){
+             if (Math.random()*10 <= 5){
+              monsterList.add(new octopus(zx,zy));
+              monsterList.add(new octopus(zx,zy+1));
+              monsterList.add(new octopus(zx,zy+2));
+             }
+              else{
+                monsterList.add(new crab(zx,zy));
+                monsterList.add(new crab(zx,zy+1));
+                monsterList.add(new crab(zx,zy+2));
+              }
+              zx+=10;
+            }
             terminal.clearScreen();
           }
       }
@@ -116,6 +145,13 @@ public class SpaceSanta{
       if (score<santa.getScore()){
         score=santa.getScore();
       }
+
+      putString(size.getColumns()/2-2 , size.getRows()/2 , terminal ,  "YOU LOST!");
+      putString(size.getColumns()/2-2 , size.getRows()/2-3 , terminal , "HIGHSCORE: " + score);
+      putString(size.getColumns()/2-2 , size.getRows()/2-6 , terminal , "CURRENTSCORE: " + santa.getScore());
+      putString(size.getColumns()/2-2 , size.getRows()/2-9 , terminal , "press  esc to exit");
+      putString(size.getColumns()/2-2 , size.getRows()/2-12 , terminal , "press  space to restart");
+
       if (key != null ){
         if (key.getKind() == Key.Kind.Escape) {
           terminal.exitPrivateMode();
@@ -123,17 +159,15 @@ public class SpaceSanta{
 
         }
         if (key.getCharacter() == ' '){
-          mode=2;
+          mode=1;
+          b.clear();
+          m.clear();
+          monsterList.clear();
+          difficulty = 1;
+          santa = new player("</^\\>", 2,size);
           terminal.clearScreen();
         }
     }
-
-      putString(size.getColumns()/2-2 , size.getRows()/2 , terminal ,  "YOU LOST!");
-      putString(size.getColumns()/2-2 , size.getRows()/2-3 , terminal , "HIGHSCORE: " + score);
-      putString(size.getColumns()/2-2 , size.getRows()/2-6 , terminal , "CURRENTSCORE: " + santa.getScore());
-      putString
-      (size.getColumns()/2-2 , size.getRows()/2-9 , terminal , "press  esc to escape");
-
 }
     if(mode==2){
     terminal.applyBackgroundColor(Terminal.Color.DEFAULT);
@@ -141,7 +175,7 @@ public class SpaceSanta{
     //Octopus.putString(zx,zy,terminal,Octopus.getName());
     terminal.putCharacter(' ');
 
- 
+
    terminal.applyForegroundColor(Terminal.Color.DEFAULT);
    for(int i=0;i<monsterList.size();i++){   // change this
      monster a=monsterList.get(i);
@@ -205,16 +239,19 @@ public class SpaceSanta{
           b.get(i).move();
           putString(b.get(i).getx(),b.get(i).gety(),terminal,b.get(i).getSprite());
           b.get(i).setbLast(System.currentTimeMillis());
-        }
-        if (b.get(i).gety() == 0){
           for(int mi = 0 ; mi < monsterList.size() ; mi++){
             monster ma = monsterList.get(mi);
-            if (b.get(i).getx() >= ma.getX() && b.get(i).getx() <= ma.getX() + 4){
+            if (b.get(i).getx() >= ma.getX() && b.get(i).getx() <= ma.getX() + 4 && b.get(i).gety() == ma.getY()){
               monsterList.remove(mi);
               putString(ma.getX(),ma.getY(),terminal,"    ");
               santa.incrementScore(50);
+              terminal.moveCursor(b.get(i).getx(),b.get(i).gety());
+              terminal.putCharacter(' ');
+              b.remove(i);
             }
           }
+        }
+        else if (b.get(i).gety() == 0){
           terminal.moveCursor(b.get(i).getx(),b.get(i).gety());
           terminal.putCharacter(' ');
           b.remove(i);
@@ -297,8 +334,9 @@ public class SpaceSanta{
     //  zx++;
   }
 
-    putString(size.getColumns()/2-2 , size.getRows()*2/3 , terminal ,  "LIVES: " + santa.getLives());
-    putString(size.getColumns()/2-2 , size.getRows()*2/3+2 , terminal , "SCORE: " + santa.getScore());
+    putString(size.getColumns()/2-2 , size.getRows()*2/3+6 , terminal ,  "LIVES: " + santa.getLives());
+    putString(size.getColumns()/2-2 , size.getRows()*2/3+8 , terminal , "SCORE: " + santa.getScore());
+    putString(size.getColumns()/2-2 , size.getRows()*2/3+10 , terminal , "LEVEL: " + difficulty);
     if(monsterList.size()==0){
       mode=4;
       timeStart=System.currentTimeMillis();
@@ -310,7 +348,149 @@ public class SpaceSanta{
       terminal.clearScreen();
       }
     }
+
+    if (mode == 5){
+      terminal.applyBackgroundColor(Terminal.Color.DEFAULT);
+      terminal.applyForegroundColor(Terminal.Color.DEFAULT);
+      terminal.putCharacter(' ');
+
+
+     terminal.applyForegroundColor(Terminal.Color.DEFAULT);
+
+     terminal.applyBackgroundColor(Terminal.Color.DEFAULT);
+     terminal.applyForegroundColor(Terminal.Color.DEFAULT);
+     terminal.moveCursor(x,y);
+     if (!santa.notStunned()){
+       terminal.applyForegroundColor(Terminal.Color.YELLOW);
+     }
+     putString(x,y,terminal,santa);
+     terminal.putCharacter(' ');
+     terminal.applyBackgroundColor(Terminal.Color.DEFAULT);
+     terminal.applyForegroundColor(Terminal.Color.DEFAULT);
+
+     putString(10,2,terminal,"HP : ");
+     terminal.applyForegroundColor(Terminal.Color.RED);
+     for (int i = 0 ; i < boss.getLife() ; i++){
+       terminal.putCharacter('O');
+     }
+     terminal.applyForegroundColor(Terminal.Color.DEFAULT);
+     terminal.putCharacter(' ');
+     putString((size.getColumns()/2)-(boss.length()/2), 4, terminal, boss.getSprite());
+
+      Key key = terminal.readInput();
+
+      if (key != null && santa.notStunned()){
+
+
+        if (key.getKind() == Key.Kind.Escape) {
+
+          terminal.exitPrivateMode();
+          running = false;
+        }
+
+        if (key.getKind() == Key.Kind.ArrowLeft) {
+          terminal.moveCursor(x,y);
+          terminal.putCharacter(' ');
+          x--;
+        }
+
+        if (key.getKind() == Key.Kind.ArrowRight) {
+          terminal.moveCursor(x,y);
+          terminal.putCharacter(' ');
+          x++;
+        }
+
+        if (key.getCharacter() == ' '){
+          b.add(new bullet(1,1,1,"|",x+2,y-1,System.currentTimeMillis()));
+        }
+      }
+
+      if (b.size() > 0){
+        for (int i = 0 ; i < b.size(); i++){
+          if (b.get(i).gety() > 0 && System.currentTimeMillis() - b.get(i).getbLast() >= 50){
+            if (b.get(i).gety() <= 4+boss.height() && b.get(i).getx() >= (size.getColumns()/2)-(boss.length()/2) && b.get(i).getx() <= (size.getColumns()/2)+(boss.length()/2)){
+              boss.hurt(b.get(i).getDamage());
+              b.remove(i);
+            }
+            else{
+              terminal.moveCursor(b.get(i).getx(),b.get(i).gety());
+              terminal.putCharacter(' ');
+              b.get(i).move();
+              putString(b.get(i).getx(),b.get(i).gety(),terminal,b.get(i).getSprite());
+              b.get(i).setbLast(System.currentTimeMillis());
+            }
+          }
+          else if (b.get(i).gety() == 0){
+            terminal.moveCursor(b.get(i).getx(),b.get(i).gety());
+            terminal.putCharacter(' ');
+            b.remove(i);
+          }
+        }
+      }
+      if (m.size() > 0){
+        for (int i = 0 ; i < m.size(); i++){
+          if (m.get(i).gety() < y && System.currentTimeMillis() - m.get(i).getbLast() >= 50){
+            terminal.moveCursor(m.get(i).getx(),m.get(i).gety());
+            terminal.putCharacter(' ');
+            terminal.putCharacter(' ');
+            m.get(i).move();
+            putString(m.get(i).getx(),m.get(i).gety(),terminal,m.get(i).getSprite());
+            m.get(i).setbLast(System.currentTimeMillis());
+          }
+          if (m.get(i).gety() == y){
+            if (m.get(i).getx() >= x && m.get(i).getx() <= x+5){
+              if (m.get(i).getSprite() == "|"){
+                santa.die();
+              }
+              if (m.get(i).getSprite() == "vv"){
+                santa.stun();
+              }
+            }
+            terminal.moveCursor(m.get(i).getx(),m.get(i).gety());
+            terminal.putCharacter(' ');
+            terminal.putCharacter(' ');
+            m.remove(i);
+          }
+        }
+      }
+
+      long tEnd = System.currentTimeMillis();
+      long millis = tEnd - tStart;
+
+      if(millis/1000 > lastSecond){
+        lastSecond = millis / 1000;
+        if (Math.random()*10 <= 3.5){
+          int xpos = (size.getColumns()/2) + (int)(Math.random()*100%boss.length());
+          int ypos = 4 + (int)(Math.random()*100%boss.height());
+          if (Math.random() <= .5){
+            m.add(new crabbullet(xpos,ypos,System.currentTimeMillis()));
+          }
+          else{
+            m.add(new octopusbullet(xpos,ypos,System.currentTimeMillis()));
+          }
+        }
+      }
+
+      if(millis/2000 > last2sec){
+        last2sec = millis / 2000;
+        santa.unstun();
+      }
+      long tLastCount=millis;
+
+      putString(size.getColumns()/2-2 , size.getRows()*2/3+6 , terminal ,  "LIVES: " + santa.getLives());
+      putString(size.getColumns()/2-2 , size.getRows()*2/3+8 , terminal , "SCORE: " + santa.getScore());
+      putString(size.getColumns()/2-2 , size.getRows()*2/3+10 , terminal , "LEVEL: " + difficulty);
+      if (boss.getLife() <= 0){
+        mode=4;
+        timeStart=System.currentTimeMillis();
+        terminal.clearScreen();
+      }
+      if (santa.getLives() <= 0){
+        mode=3;
+        terminal.clearScreen();
+      }
+    }
+
   }
  }
 }
-

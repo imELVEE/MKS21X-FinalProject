@@ -47,6 +47,9 @@ public class player implements CharSequence{
   public void die(){
     lives--;
   }
+  public void gainLife(){
+    lives++;
+  }
 
   public char charAt(int index){
     return ship.charAt(index);
